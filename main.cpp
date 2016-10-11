@@ -6,7 +6,7 @@
 
 using namespace std;
 
-const int Dim = 10;
+const int Dim = 100;
 
 class QW
 {
@@ -30,7 +30,7 @@ class QW
         {
             ofstream myfile;
             char filename[256];
-            sprintf(filename,"data%d.txt",iter);
+            sprintf(filename,"data%d.dat",iter);
             myfile.open(filename);
             for(int x = 0; x < Dim; x++)
             {
@@ -48,7 +48,7 @@ class QW
         {
             ofstream myfile;
             char filename[256];
-            sprintf(filename,"data%d.dat",iter);
+            sprintf(filename,"data%d.txt",iter);
             myfile.open(filename);
             for(int x = 0; x < Dim; x++)
             {
@@ -168,7 +168,9 @@ int main()
     QW run;
 
     srand (time(NULL));
-
+	
+    for(int k = 0; k<3; k++)
+    {
     for(int l = 0; l<100; l++)
     {
         run.generation();
@@ -176,7 +178,8 @@ int main()
     }
 
     run.doc_show();
-    run.doc_MP();
+    }
+ //   run.doc_MP();
 
     cout << "Hello world!" << endl;
     return 0;
