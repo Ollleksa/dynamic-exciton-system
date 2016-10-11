@@ -30,7 +30,7 @@ class QW
         {
             ofstream myfile;
             char filename[256];
-            sprintf(filename,"data%d.dat",iter);
+            sprintf(filename,"data/data%d.dat",iter);
             myfile.open(filename);
             for(int x = 0; x < Dim; x++)
             {
@@ -48,7 +48,7 @@ class QW
         {
             ofstream myfile;
             char filename[256];
-            sprintf(filename,"data%d.txt",iter);
+            sprintf(filename,"/data/data%d.txt",iter);
             myfile.open(filename);
             for(int x = 0; x < Dim; x++)
             {
@@ -165,11 +165,15 @@ class QW
 
 int main()
 {
+    int range;
     QW run;
+
+    cout << "Type iterations" << endl;
+    cin >> range;
 
     srand (time(NULL));
 	
-    for(int k = 0; k<3; k++)
+    for(int k = 0; k<range; k++)
     {
     for(int l = 0; l<100; l++)
     {
