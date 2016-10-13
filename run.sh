@@ -27,5 +27,7 @@ numfiles=${#numfiles[@]}
  
 for (( i=1; i<=${numfiles}; i++ ));
 do
-	gnuplot -e "filename = 'data/data${i}00.dat'; filename2 = 'plot/plot${i}00.png' " gpl.p
+	gnuplot -e "filename = 'data/data${i}00.dat'; filename2 = 'plot/plot${i}.png' " gpl.p
 done
+
+ffmpeg -framerate 2  -i 'plot/plot%d.png'  -c:v libx264 out.mp4
