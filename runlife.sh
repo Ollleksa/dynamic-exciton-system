@@ -30,4 +30,4 @@ do
 	gnuplot -e "filename = 'life/data${i}.dat'; filename2 = 'plotlife/plot${i}.png' " gpl.p
 done
 
-ffmpeg -framerate 4  -i 'plotlife/plot%d.png'  -c:v libx264 life.mp4
+ffmpeg -framerate 8  -i 'plotlife/plot%d.png'  -c:v libx264 lifev2.mp4

@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <stdio.h>
 
 using namespace std;
 
@@ -14,6 +15,7 @@ class life
 	        int cells[Dim+2][Dim+2];			//bigger on two, because I want to initialisate some border conditions
 	        int temp[Dim+2][Dim+2];
 	        int iter;
+		int type;					//type of life system (closed, open, etc)
 	public:
 	        life()                                		//empty field;
 	        {
@@ -24,6 +26,7 @@ class life
                 		temp[x][y] = 0;
             		}
             		iter = 0;
+			type = 0;				//by default it closed system
         	}
 //------------------------------------------
         	void doc_show();                     		//write system into file in ASCII format
@@ -35,7 +38,8 @@ class life
 		void glider_gen();
 		void glider_cannon();
 //------------------------------------------
-        	void moving();                      		//evolve by one step
+		void change_type(int t);        	
+		void moving();                      		//evolve by one step
 		void check();					//check if set is empty or stable
 };
 
@@ -102,6 +106,7 @@ void life::block_gen()
 	cells[2][1] = 1;
 	cells[1][2] = 1;
 	cells[2][2] = 1;
+	cells[1][3] = 1;
 }
 
 void life::blinker_gen()
@@ -166,6 +171,11 @@ void life::glider_cannon()
 	cells[14][9] = 1;
 }
 
+void life::change_type(int t)
+{
+	type = t;
+}
+
 void life::moving()                      //evolve by one step
 {
 	for(int x = 1; x < Dim+1; x++)
@@ -173,6 +183,21 @@ void life::moving()                      //evolve by one step
         {
         	temp[x][y] = cells[x][y];
         }
+
+	if(type = 1)
+	{
+		cells[0][0] = cells[Dim][Dim];
+		cells[0][Dim+1] = cells[Dim][1];
+		cells[Dim+1][0] = cells[1][Dim];
+		cells[Dim+1][Dim+1] = cells[1][1];
+		for(int k = 1; k < Dim+1; k++)
+		{
+			cells[0][k] = cells[Dim][k];
+			cells[Dim+1][k] = cells[1][k];
+			cells[k][0] = cells[k][Dim];
+			cells[k][Dim+1] = cells[k][1];
+		}
+	}
 
         for(int x = 1; x < Dim+1; x++)
         for(int y = 1; y < Dim+1; y++)
@@ -225,11 +250,15 @@ void life::check()
 	if(z_count == 0)
 	{
 		cout << "Set is empty. System just died." << endl;
+		doc_show();
+		exit(0);
 	}
 
 	if(stable == true)
 	{
 		cout << "Stable situation" << endl;
+		doc_show();
+		exit(0);
 	}
 }
 
@@ -237,13 +266,17 @@ int main()
 {
 	life run;
 	int type;
+	int sys;
+	cout << "Maybe open system? Type 1 for Yes, 0 for No" << endl;
+	cin >> sys;
+	run.change_type(sys);
 	cout << "Possible systems: random (type 1), block (2), blinker (3), glider(4), glider cannon(5)" << endl;
 	cin >> type;
 
 	srand (time(NULL));
 	run.generation(type);
 	
-	for(int k = 0; k<200; k++)
+	for(int k = 0; k<600; k++)
 	{
 	        run.moving();
 		run.doc_show();
